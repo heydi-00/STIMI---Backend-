@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { NovedadService } from './novedad.service';
 import { CreateNovedadDto } from './dto/create-novedad.dto';
 import { UpdateNovedadDto } from './dto/update-novedad.dto';
 
 @Controller('novedad')
 export class NovedadController {
+
   constructor(private readonly novedadService: NovedadService) {}
 
   @Post()
@@ -18,17 +19,18 @@ export class NovedadController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.novedadService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.novedadService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNovedadDto: UpdateNovedadDto) {
-    return this.novedadService.update(+id, updateNovedadDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateNovedadDto: UpdateNovedadDto) {
+    return this.novedadService.update(id, updateNovedadDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.novedadService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.novedadService.remove(id);
   }
+
 }

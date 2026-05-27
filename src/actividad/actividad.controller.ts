@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { ActividadService } from './actividad.service';
 import { CreateActividadDto } from './dto/create-actividad.dto';
 import { UpdateActividadDto } from './dto/update-actividad.dto';
 
 @Controller('actividad')
 export class ActividadController {
+
   constructor(private readonly actividadService: ActividadService) {}
 
   @Post()
@@ -18,17 +19,18 @@ export class ActividadController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.actividadService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.actividadService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateActividadDto: UpdateActividadDto) {
-    return this.actividadService.update(+id, updateActividadDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateActividadDto: UpdateActividadDto) {
+    return this.actividadService.update(id, updateActividadDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.actividadService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.actividadService.remove(id);
   }
+
 }

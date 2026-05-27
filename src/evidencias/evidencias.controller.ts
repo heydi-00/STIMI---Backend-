@@ -1,15 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { EvidenciasService } from './evidencias.service';
-import { CreateEvidenciaDto } from './dto/create-evidencia.dto';
-import { UpdateEvidenciaDto } from './dto/update-evidencia.dto';
+import { CreateEvidenciasDto } from './dto/create-evidencias.dto';
+import { UpdateEvidenciasDto } from './dto/update-evidencias.dto';
 
 @Controller('evidencias')
 export class EvidenciasController {
+
   constructor(private readonly evidenciasService: EvidenciasService) {}
 
   @Post()
-  create(@Body() createEvidenciaDto: CreateEvidenciaDto) {
-    return this.evidenciasService.create(createEvidenciaDto);
+  create(@Body() createEvidenciasDto: CreateEvidenciasDto) {
+    return this.evidenciasService.create(createEvidenciasDto);
   }
 
   @Get()
@@ -18,17 +19,18 @@ export class EvidenciasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.evidenciasService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.evidenciasService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEvidenciaDto: UpdateEvidenciaDto) {
-    return this.evidenciasService.update(+id, updateEvidenciaDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateEvidenciasDto: UpdateEvidenciasDto) {
+    return this.evidenciasService.update(id, updateEvidenciasDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.evidenciasService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.evidenciasService.remove(id);
   }
+
 }

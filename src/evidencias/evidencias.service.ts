@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common';
-import { CreateEvidenciaDto } from './dto/create-evidencia.dto';
-import { UpdateEvidenciaDto } from './dto/update-evidencia.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Evidencias } from './entities/evidencia.entity';
+import { CreateEvidenciasDto } from './dto/create-evidencias.dto';
+import { UpdateEvidenciasDto } from './dto/update-evidencias.dto';
 
 @Injectable()
 export class EvidenciasService {
-  create(createEvidenciaDto: CreateEvidenciaDto) {
-    return 'This action adds a new evidencia';
+
+  constructor(
+    @InjectRepository(Evidencias)
+    private readonly evidenciasRepository: Repository<Evidencias>,
+  ) {}
+
+  async create(createEvidenciasDto: CreateEvidenciasDto): Promise<Evidencias> {
+    const evidencia = this.evidenciasRepository.create({
+      ...createEvidenciasDto,
+      actividad: { id_actividad: createEvidenciasDto.id_actividad },
+    });
+    return await this.evidenciasRepository.save(evidencia);
   }
 
-  findAll() {
-    return `This action returns all evidencias`;
+  async findAll(): Promise<Evidencias[]> {
+    return await this.evidenciasRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} evidencia`;
+  async findOne(id: number): Promise<Evidencias> {
+    const evidencia = await this.evidenciasRepository.findOne({ where: { id_evidencias: id } });
+    if (!evidencia) throw new NotFoundException(`Evidencia con id ${id} no encontrada`);
+    return evidencia;
   }
 
-  update(id: number, updateEvidenciaDto: UpdateEvidenciaDto) {
-    return `This action updates a #${id} evidencia`;
+  async update(id: number, updateEvidenciasDto: UpdateEvidenciasDto): Promise<Evidencias> {
+    await this.findOne(id);
+    await this.evidenciasRepository.update(id, {
+      ...updateEvidenciasDto,
+      ...(updateEvidenciasDto.id_actividad && { actividad: { id_actividad: updateEvidenciasDto.id_actividad } }),
+    });
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} evidencia`;
+  async remove(id: number): Promise<{ message: string }> {
+    await this.findOne(id);
+    await this.evidenciasRepository.delete(id);
+    return { message: `Evidencia con id ${id} eliminada correctamente` };
   }
+
 }
