@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { InformeGf } from './entities/informe_gf.entity';
 import { CreateInformeGfDto } from './dto/create-informe_gf.dto';
 import { UpdateInformeGfDto } from './dto/update-informe_gf.dto';
 
 @Injectable()
 export class InformeGfService {
-  create(createInformeGfDto: CreateInformeGfDto) {
-    return 'This action adds a new informeGf';
+
+  constructor(
+    @InjectRepository(InformeGf)
+    private readonly informeGfRepository: Repository<InformeGf>,
+  ) {}
+
+  async create(createInformeGfDto: CreateInformeGfDto): Promise<InformeGf> {
+    const informeGf = this.informeGfRepository.create({
+      ...createInformeGfDto,
+      informe: { id_informe: createInformeGfDto.id_informe },
+    });
+    return await this.informeGfRepository.save(informeGf);
   }
 
-  findAll() {
-    return `This action returns all informeGf`;
+  async findAll(): Promise<InformeGf[]> {
+    return await this.informeGfRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} informeGf`;
+  async findOne(id: number): Promise<InformeGf> {
+    const informeGf = await this.informeGfRepository.findOne({ where: { id_gf: id } });
+    if (!informeGf) throw new NotFoundException(`InformeGf con id ${id} no encontrado`);
+    return informeGf;
   }
 
-  update(id: number, updateInformeGfDto: UpdateInformeGfDto) {
-    return `This action updates a #${id} informeGf`;
+  async update(id: number, updateInformeGfDto: UpdateInformeGfDto): Promise<InformeGf> {
+    await this.findOne(id);
+    await this.informeGfRepository.update(id, {
+      ...updateInformeGfDto,
+      ...(updateInformeGfDto.id_informe && { informe: { id_informe: updateInformeGfDto.id_informe } }),
+    });
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} informeGf`;
+  async remove(id: number): Promise<{ message: string }> {
+    await this.findOne(id);
+    await this.informeGfRepository.delete(id);
+    return { message: `InformeGf con id ${id} eliminado correctamente` };
   }
+
 }
