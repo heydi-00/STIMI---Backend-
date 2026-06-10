@@ -1,9 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { InformeGfService } from './informe_gf.service';
 import { CreateInformeGfDto } from './dto/create-informe_gf.dto';
 import { UpdateInformeGfDto } from './dto/update-informe_gf.dto';
 
-@Controller('informe-gf')
+@Controller('informes-gf')
 export class InformeGfController {
   constructor(private readonly informeGfService: InformeGfService) {}
 
@@ -18,17 +27,20 @@ export class InformeGfController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.informeGfService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.informeGfService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInformeGfDto: UpdateInformeGfDto) {
-    return this.informeGfService.update(+id, updateInformeGfDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateInformeGfDto: UpdateInformeGfDto,
+  ) {
+    return this.informeGfService.update(id, updateInformeGfDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.informeGfService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.informeGfService.remove(id);
   }
 }

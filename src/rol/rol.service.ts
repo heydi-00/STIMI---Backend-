@@ -7,7 +7,6 @@ import { UpdateRolDto } from './dto/update-rol.dto';
 
 @Injectable()
 export class RolService {
-
   constructor(
     @InjectRepository(Rol)
     private readonly rolRepository: Repository<Rol>,
@@ -39,5 +38,4 @@ export class RolService {
     await this.rolRepository.delete(id);
     return { message: `Rol con id ${id} eliminado correctamente` };
   }
-
 }

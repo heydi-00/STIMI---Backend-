@@ -10,7 +10,6 @@ import { Contrato } from '../../contrato/entities/contrato.entity';
 
 @Entity('version')
 export class Version {
-
   @PrimaryGeneratedColumn()
   id_version: number;
 
@@ -26,5 +25,4 @@ export class Version {
   @ManyToOne(() => Contrato, { eager: true })
   @JoinColumn({ name: 'id_contrato' })
   contrato: Contrato;
-
 }

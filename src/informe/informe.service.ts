@@ -7,7 +7,6 @@ import { UpdateInformeDto } from './dto/update-informe.dto';
 
 @Injectable()
 export class InformeService {
-
   constructor(
     @InjectRepository(Informe)
     private readonly informeRepository: Repository<Informe>,
@@ -26,16 +25,24 @@ export class InformeService {
   }
 
   async findOne(id: number): Promise<Informe> {
-    const informe = await this.informeRepository.findOne({ where: { id_informe: id } });
-    if (!informe) throw new NotFoundException(`Informe con id ${id} no encontrado`);
+    const informe = await this.informeRepository.findOne({
+      where: { id_informe: id },
+    });
+    if (!informe)
+      throw new NotFoundException(`Informe con id ${id} no encontrado`);
     return informe;
   }
 
-  async update(id: number, updateInformeDto: UpdateInformeDto): Promise<Informe> {
+  async update(
+    id: number,
+    updateInformeDto: UpdateInformeDto,
+  ): Promise<Informe> {
     await this.findOne(id);
     await this.informeRepository.update(id, {
       ...updateInformeDto,
-      ...(updateInformeDto.id_version && { version: { id_version: updateInformeDto.id_version } }),
+      ...(updateInformeDto.id_version && {
+        version: { id_version: updateInformeDto.id_version },
+      }),
     });
     return this.findOne(id);
   }
@@ -45,5 +52,4 @@ export class InformeService {
     await this.informeRepository.delete(id);
     return { message: `Informe con id ${id} eliminado correctamente` };
   }
-
 }

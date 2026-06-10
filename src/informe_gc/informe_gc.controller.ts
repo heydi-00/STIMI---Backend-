@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { InformeGcService } from './informe_gc.service';
 import { CreateInformeGcDto } from './dto/create-informe_gc.dto';
 import { UpdateInformeGcDto } from './dto/update-informe_gc.dto';
@@ -23,7 +31,10 @@ export class InformeGcController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInformeGcDto: UpdateInformeGcDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateInformeGcDto: UpdateInformeGcDto,
+  ) {
     return this.informeGcService.update(+id, updateInformeGcDto);
   }
 

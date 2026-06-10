@@ -7,7 +7,6 @@ import { UpdateVersionDto } from './dto/update-version.dto';
 
 @Injectable()
 export class VersionService {
-
   constructor(
     @InjectRepository(Version)
     private readonly versionRepository: Repository<Version>,
@@ -26,16 +25,24 @@ export class VersionService {
   }
 
   async findOne(id: number): Promise<Version> {
-    const version = await this.versionRepository.findOne({ where: { id_version: id } });
-    if (!version) throw new NotFoundException(`Version con id ${id} no encontrada`);
+    const version = await this.versionRepository.findOne({
+      where: { id_version: id },
+    });
+    if (!version)
+      throw new NotFoundException(`Version con id ${id} no encontrada`);
     return version;
   }
 
-  async update(id: number, updateVersionDto: UpdateVersionDto): Promise<Version> {
+  async update(
+    id: number,
+    updateVersionDto: UpdateVersionDto,
+  ): Promise<Version> {
     await this.findOne(id);
     await this.versionRepository.update(id, {
       ...updateVersionDto,
-      ...(updateVersionDto.id_contrato && { contrato: { id_contrato: updateVersionDto.id_contrato } }),
+      ...(updateVersionDto.id_contrato && {
+        contrato: { id_contrato: updateVersionDto.id_contrato },
+      }),
     });
     return this.findOne(id);
   }
@@ -45,5 +52,4 @@ export class VersionService {
     await this.versionRepository.delete(id);
     return { message: `Version con id ${id} eliminada correctamente` };
   }
-
 }

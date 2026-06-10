@@ -7,7 +7,6 @@ import { UpdatePersonaDto } from './dto/update-persona.dto';
 
 @Injectable()
 export class PersonaService {
-
   constructor(
     @InjectRepository(Persona)
     private readonly personaRepository: Repository<Persona>,
@@ -27,17 +26,27 @@ export class PersonaService {
   }
 
   async findOne(id: number): Promise<Persona> {
-    const persona = await this.personaRepository.findOne({ where: { id_persona: id } });
-    if (!persona) throw new NotFoundException(`Persona con id ${id} no encontrada`);
+    const persona = await this.personaRepository.findOne({
+      where: { id_persona: id },
+    });
+    if (!persona)
+      throw new NotFoundException(`Persona con id ${id} no encontrada`);
     return persona;
   }
 
-  async update(id: number, updatePersonaDto: UpdatePersonaDto): Promise<Persona> {
+  async update(
+    id: number,
+    updatePersonaDto: UpdatePersonaDto,
+  ): Promise<Persona> {
     await this.findOne(id);
     await this.personaRepository.update(id, {
       ...updatePersonaDto,
-      ...(updatePersonaDto.credencial && { credencial: { credencial: updatePersonaDto.credencial } }),
-      ...(updatePersonaDto.id_area && { area: { id_area: updatePersonaDto.id_area } }),
+      ...(updatePersonaDto.credencial && {
+        credencial: { credencial: updatePersonaDto.credencial },
+      }),
+      ...(updatePersonaDto.id_area && {
+        area: { id_area: updatePersonaDto.id_area },
+      }),
     });
     return this.findOne(id);
   }
@@ -47,5 +56,4 @@ export class PersonaService {
     await this.personaRepository.delete(id);
     return { message: `Persona con id ${id} eliminada correctamente` };
   }
-
 }

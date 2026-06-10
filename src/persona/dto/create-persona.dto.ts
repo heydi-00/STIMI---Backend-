@@ -1,7 +1,6 @@
 import { IsString, IsNotEmpty, MaxLength, IsInt } from 'class-validator';
 
 export class CreatePersonaDto {
-
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
@@ -29,5 +28,4 @@ export class CreatePersonaDto {
   @IsInt()
   @IsNotEmpty()
   id_area: number;
-
 }

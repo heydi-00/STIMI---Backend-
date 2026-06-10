@@ -1,7 +1,6 @@
 import { IsString, IsNotEmpty, IsInt } from 'class-validator';
 
 export class CreateNovedadDto {
-
   @IsString()
   @IsNotEmpty()
   descripcion: string;
@@ -13,5 +12,4 @@ export class CreateNovedadDto {
   @IsInt()
   @IsNotEmpty()
   id_persona: number;
-
 }

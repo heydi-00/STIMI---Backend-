@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { EvidenciasService } from './evidencias.service';
 import { CreateEvidenciasDto } from './dto/create-evidencias.dto';
 import { UpdateEvidenciasDto } from './dto/update-evidencias.dto';
 
 @Controller('evidencias')
 export class EvidenciasController {
-
   constructor(private readonly evidenciasService: EvidenciasService) {}
 
   @Post()
@@ -24,7 +32,10 @@ export class EvidenciasController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateEvidenciasDto: UpdateEvidenciasDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateEvidenciasDto: UpdateEvidenciasDto,
+  ) {
     return this.evidenciasService.update(id, updateEvidenciasDto);
   }
 
@@ -32,5 +43,4 @@ export class EvidenciasController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.evidenciasService.remove(id);
   }
-
 }

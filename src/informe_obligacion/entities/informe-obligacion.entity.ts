@@ -4,7 +4,6 @@ import { Obligaciones } from '../../obligaciones/entities/obligaciones.entity';
 
 @Entity('informe_obligacion')
 export class InformeObligacion {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -15,5 +14,4 @@ export class InformeObligacion {
   @ManyToOne(() => Obligaciones, { eager: true })
   @JoinColumn({ name: 'id_obligacion' })
   obligacion: Obligaciones;
-
 }

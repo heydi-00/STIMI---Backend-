@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { PersonaService } from './persona.service';
 import { CreatePersonaDto } from './dto/create-persona.dto';
 import { UpdatePersonaDto } from './dto/update-persona.dto';
 
 @Controller('persona')
 export class PersonaController {
-
   constructor(private readonly personaService: PersonaService) {}
 
   @Post()
@@ -24,7 +32,10 @@ export class PersonaController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updatePersonaDto: UpdatePersonaDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updatePersonaDto: UpdatePersonaDto,
+  ) {
     return this.personaService.update(id, updatePersonaDto);
   }
 
@@ -32,5 +43,4 @@ export class PersonaController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.personaService.remove(id);
   }
-
 }

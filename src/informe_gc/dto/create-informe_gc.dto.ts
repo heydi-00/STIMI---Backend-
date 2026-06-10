@@ -1,7 +1,6 @@
 import { IsString, IsNotEmpty, MaxLength, IsInt } from 'class-validator';
 
 export class CreateInformeGcDto {
-
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
@@ -10,5 +9,4 @@ export class CreateInformeGcDto {
   @IsInt()
   @IsNotEmpty()
   id_informe: number;
-
 }

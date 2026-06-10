@@ -1,10 +1,15 @@
-import { Column, Entity, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  JoinColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Area } from '../../area/entities/area.entity';
 import { Rol } from '../../rol/entities/rol.entity';
 
 @Entity('persona')
 export class Persona {
-
   @PrimaryGeneratedColumn()
   id_persona: number;
 
@@ -27,5 +32,4 @@ export class Persona {
   @ManyToOne(() => Area, { eager: true })
   @JoinColumn({ name: 'id_area' })
   area: Area;
-
 }

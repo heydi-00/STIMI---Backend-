@@ -7,7 +7,6 @@ import { UpdateNovedadDto } from './dto/update-novedad.dto';
 
 @Injectable()
 export class NovedadService {
-
   constructor(
     @InjectRepository(Novedad)
     private readonly novedadRepository: Repository<Novedad>,
@@ -27,17 +26,27 @@ export class NovedadService {
   }
 
   async findOne(id: number): Promise<Novedad> {
-    const novedad = await this.novedadRepository.findOne({ where: { id_novedad: id } });
-    if (!novedad) throw new NotFoundException(`Novedad con id ${id} no encontrada`);
+    const novedad = await this.novedadRepository.findOne({
+      where: { id_novedad: id },
+    });
+    if (!novedad)
+      throw new NotFoundException(`Novedad con id ${id} no encontrada`);
     return novedad;
   }
 
-  async update(id: number, updateNovedadDto: UpdateNovedadDto): Promise<Novedad> {
+  async update(
+    id: number,
+    updateNovedadDto: UpdateNovedadDto,
+  ): Promise<Novedad> {
     await this.findOne(id);
     await this.novedadRepository.update(id, {
       ...updateNovedadDto,
-      ...(updateNovedadDto.id_version && { version: { id_version: updateNovedadDto.id_version } }),
-      ...(updateNovedadDto.id_persona && { persona: { id_persona: updateNovedadDto.id_persona } }),
+      ...(updateNovedadDto.id_version && {
+        version: { id_version: updateNovedadDto.id_version },
+      }),
+      ...(updateNovedadDto.id_persona && {
+        persona: { id_persona: updateNovedadDto.id_persona },
+      }),
     });
     return this.findOne(id);
   }
@@ -47,5 +56,4 @@ export class NovedadService {
     await this.novedadRepository.delete(id);
     return { message: `Novedad con id ${id} eliminada correctamente` };
   }
-
 }

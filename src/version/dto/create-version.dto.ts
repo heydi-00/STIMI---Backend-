@@ -1,7 +1,6 @@
 import { IsDateString, IsEnum, IsInt, IsNotEmpty } from 'class-validator';
 
 export class CreateVersionDto {
-
   @IsDateString()
   @IsNotEmpty()
   fecha: Date;
@@ -13,5 +12,4 @@ export class CreateVersionDto {
   @IsInt()
   @IsNotEmpty()
   id_contrato: number;
-
 }

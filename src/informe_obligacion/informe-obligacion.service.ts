@@ -7,13 +7,14 @@ import { UpdateInformeObligacionDto } from './dto/update-informe-obligacion.dto'
 
 @Injectable()
 export class InformeObligacionService {
-
   constructor(
     @InjectRepository(InformeObligacion)
     private readonly informeObligacionRepository: Repository<InformeObligacion>,
   ) {}
 
-  async create(createInformeObligacionDto: CreateInformeObligacionDto): Promise<InformeObligacion> {
+  async create(
+    createInformeObligacionDto: CreateInformeObligacionDto,
+  ): Promise<InformeObligacion> {
     const informeObligacion = this.informeObligacionRepository.create({
       ...createInformeObligacionDto,
       informe: { id_informe: createInformeObligacionDto.id_informe },
@@ -27,17 +28,29 @@ export class InformeObligacionService {
   }
 
   async findOne(id: number): Promise<InformeObligacion> {
-    const informeObligacion = await this.informeObligacionRepository.findOne({ where: { id } });
-    if (!informeObligacion) throw new NotFoundException(`InformeObligacion con id ${id} no encontrada`);
+    const informeObligacion = await this.informeObligacionRepository.findOne({
+      where: { id },
+    });
+    if (!informeObligacion)
+      throw new NotFoundException(
+        `InformeObligacion con id ${id} no encontrada`,
+      );
     return informeObligacion;
   }
 
-  async update(id: number, updateInformeObligacionDto: UpdateInformeObligacionDto): Promise<InformeObligacion> {
+  async update(
+    id: number,
+    updateInformeObligacionDto: UpdateInformeObligacionDto,
+  ): Promise<InformeObligacion> {
     await this.findOne(id);
     await this.informeObligacionRepository.update(id, {
       ...updateInformeObligacionDto,
-      ...(updateInformeObligacionDto.id_informe && { informe: { id_informe: updateInformeObligacionDto.id_informe } }),
-      ...(updateInformeObligacionDto.id_obligacion && { obligacion: { id_obligacion: updateInformeObligacionDto.id_obligacion } }),
+      ...(updateInformeObligacionDto.id_informe && {
+        informe: { id_informe: updateInformeObligacionDto.id_informe },
+      }),
+      ...(updateInformeObligacionDto.id_obligacion && {
+        obligacion: { id_obligacion: updateInformeObligacionDto.id_obligacion },
+      }),
     });
     return this.findOne(id);
   }
@@ -45,7 +58,8 @@ export class InformeObligacionService {
   async remove(id: number): Promise<{ message: string }> {
     await this.findOne(id);
     await this.informeObligacionRepository.delete(id);
-    return { message: `InformeObligacion con id ${id} eliminada correctamente` };
+    return {
+      message: `InformeObligacion con id ${id} eliminada correctamente`,
+    };
   }
-
 }

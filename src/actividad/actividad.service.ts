@@ -7,7 +7,6 @@ import { UpdateActividadDto } from './dto/update-actividad.dto';
 
 @Injectable()
 export class ActividadService {
-
   constructor(
     @InjectRepository(Actividad)
     private readonly actividadRepository: Repository<Actividad>,
@@ -25,12 +24,18 @@ export class ActividadService {
   }
 
   async findOne(id: number): Promise<Actividad> {
-    const actividad = await this.actividadRepository.findOne({ where: { id_actividad: id } });
-    if (!actividad) throw new NotFoundException(`Actividad con id ${id} no encontrada`);
+    const actividad = await this.actividadRepository.findOne({
+      where: { id_actividad: id },
+    });
+    if (!actividad)
+      throw new NotFoundException(`Actividad con id ${id} no encontrada`);
     return actividad;
   }
 
-  async update(id: number, updateActividadDto: UpdateActividadDto): Promise<Actividad> {
+  async update(
+    id: number,
+    updateActividadDto: UpdateActividadDto,
+  ): Promise<Actividad> {
     await this.findOne(id);
     await this.actividadRepository.update(id, { ...updateActividadDto });
     return this.findOne(id);
@@ -41,5 +46,4 @@ export class ActividadService {
     await this.actividadRepository.delete(id);
     return { message: `Actividad con id ${id} eliminada correctamente` };
   }
-
 }

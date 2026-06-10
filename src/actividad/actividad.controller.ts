@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ActividadService } from './actividad.service';
 import { CreateActividadDto } from './dto/create-actividad.dto';
 import { UpdateActividadDto } from './dto/update-actividad.dto';
 
 @Controller('actividad')
 export class ActividadController {
-
   constructor(private readonly actividadService: ActividadService) {}
 
   @Post()
@@ -24,7 +32,10 @@ export class ActividadController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateActividadDto: UpdateActividadDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateActividadDto: UpdateActividadDto,
+  ) {
     return this.actividadService.update(id, updateActividadDto);
   }
 
@@ -32,5 +43,4 @@ export class ActividadController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.actividadService.remove(id);
   }
-
 }

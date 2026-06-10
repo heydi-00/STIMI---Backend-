@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { AreaService } from './area.service';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
 
 @Controller('area')
 export class AreaController {
-
   constructor(private readonly areaService: AreaService) {}
 
   @Post()
@@ -24,7 +32,10 @@ export class AreaController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateAreaDto: UpdateAreaDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateAreaDto: UpdateAreaDto,
+  ) {
     return this.areaService.update(id, updateAreaDto);
   }
 
@@ -32,5 +43,4 @@ export class AreaController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.areaService.remove(id);
   }
-
 }

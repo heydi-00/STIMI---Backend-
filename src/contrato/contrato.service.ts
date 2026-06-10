@@ -7,7 +7,6 @@ import { UpdateContratoDto } from './dto/update-contrato.dto';
 
 @Injectable()
 export class ContratoService {
-
   constructor(
     @InjectRepository(Contrato)
     private readonly contratoRepository: Repository<Contrato>,
@@ -26,16 +25,24 @@ export class ContratoService {
   }
 
   async findOne(id: number): Promise<Contrato> {
-    const contrato = await this.contratoRepository.findOne({ where: { id_contrato: id } });
-    if (!contrato) throw new NotFoundException(`Contrato con id ${id} no encontrado`);
+    const contrato = await this.contratoRepository.findOne({
+      where: { id_contrato: id },
+    });
+    if (!contrato)
+      throw new NotFoundException(`Contrato con id ${id} no encontrado`);
     return contrato;
   }
 
-  async update(id: number, updateContratoDto: UpdateContratoDto): Promise<Contrato> {
+  async update(
+    id: number,
+    updateContratoDto: UpdateContratoDto,
+  ): Promise<Contrato> {
     await this.findOne(id);
     await this.contratoRepository.update(id, {
       ...updateContratoDto,
-      ...(updateContratoDto.id_persona && { persona: { id_persona: updateContratoDto.id_persona } }),
+      ...(updateContratoDto.id_persona && {
+        persona: { id_persona: updateContratoDto.id_persona },
+      }),
     });
     return this.findOne(id);
   }
@@ -45,5 +52,4 @@ export class ContratoService {
     await this.contratoRepository.delete(id);
     return { message: `Contrato con id ${id} eliminado correctamente` };
   }
-
 }

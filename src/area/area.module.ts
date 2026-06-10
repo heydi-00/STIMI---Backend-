@@ -10,4 +10,4 @@ import { Area } from './entities/area.entity';
   providers: [AreaService],
   exports: [TypeOrmModule],
 })
-export class AreaModule {} 
+export class AreaModule {}

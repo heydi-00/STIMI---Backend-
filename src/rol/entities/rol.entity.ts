@@ -2,7 +2,6 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('rol')
 export class Rol {
-
   @PrimaryGeneratedColumn()
   credencial: number;
 
@@ -11,5 +10,4 @@ export class Rol {
     enum: ['Activo', 'Inactivo'],
   })
   estado: string;
-
 }

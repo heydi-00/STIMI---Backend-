@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ObligacionesService } from './obligaciones.service';
 import { CreateObligacionesDto } from './dto/create-obligaciones.dto';
 import { UpdateObligacionesDto } from './dto/update-obligaciones.dto';
 
 @Controller('obligaciones')
 export class ObligacionesController {
-
   constructor(private readonly obligacionesService: ObligacionesService) {}
 
   @Post()
@@ -24,7 +32,10 @@ export class ObligacionesController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateObligacionesDto: UpdateObligacionesDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateObligacionesDto: UpdateObligacionesDto,
+  ) {
     return this.obligacionesService.update(id, updateObligacionesDto);
   }
 
@@ -32,5 +43,4 @@ export class ObligacionesController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.obligacionesService.remove(id);
   }
-
 }

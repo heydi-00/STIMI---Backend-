@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, MaxLength, IsInt } from 'class-validator';
+import { IsString, IsNotEmpty, MaxLength, IsInt, IsOptional } from 'class-validator';
 
 export class CreateEvidenciasDto {
   @IsString()
@@ -19,4 +19,7 @@ export class CreateEvidenciasDto {
   @IsNotEmpty()
   id_actividad: number;
 
+  @IsInt()
+  @IsOptional()
+  id_obligacion?: number;
 }

@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ContratoService } from './contrato.service';
 import { CreateContratoDto } from './dto/create-contrato.dto';
 import { UpdateContratoDto } from './dto/update-contrato.dto';
 
 @Controller('contrato')
 export class ContratoController {
-
   constructor(private readonly contratoService: ContratoService) {}
 
   @Post()
@@ -24,7 +32,10 @@ export class ContratoController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateContratoDto: UpdateContratoDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateContratoDto: UpdateContratoDto,
+  ) {
     return this.contratoService.update(id, updateContratoDto);
   }
 
@@ -32,5 +43,4 @@ export class ContratoController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.contratoService.remove(id);
   }
-
 }

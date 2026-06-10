@@ -1,36 +1,41 @@
-import { IsString, IsNotEmpty, MaxLength, IsEnum, IsDateString, IsInt } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  MaxLength,
+  IsEnum,
+  IsDateString,
+  IsInt,
+} from 'class-validator';
 
 export class CreateActividadDto {
-
   @IsString()
-  @IsNotEmpty({ })
-  @MaxLength(100, { })
+  @IsNotEmpty({})
+  @MaxLength(100, {})
   competencia: string;
 
   @IsString()
-  @IsNotEmpty({ })
-  @MaxLength(50, { })
+  @IsNotEmpty({})
+  @MaxLength(50, {})
   ficha: string;
 
   @IsString()
-  @IsNotEmpty({  })
-  @MaxLength(250, { })
+  @IsNotEmpty({})
+  @MaxLength(250, {})
   resultado: string;
 
-  @IsDateString({}, {  })
-  @IsNotEmpty({  })
+  @IsDateString({}, {})
+  @IsNotEmpty({})
   fecha_inicio: Date;
 
-  @IsDateString({}, {  })
-  @IsNotEmpty({  })
+  @IsDateString({}, {})
+  @IsNotEmpty({})
   fecha_fin: Date;
 
-  @IsNotEmpty({ })
-  @IsEnum(['Aplica', 'No aplica'], { })
+  @IsNotEmpty({})
+  @IsEnum(['Aplica', 'No aplica'], {})
   estado: string;
 
-  @IsInt({ })
-  @IsNotEmpty({ })
+  @IsInt({})
+  @IsNotEmpty({})
   id_gc: number;
-
 }

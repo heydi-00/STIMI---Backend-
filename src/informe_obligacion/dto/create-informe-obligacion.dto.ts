@@ -1,7 +1,6 @@
 import { IsInt, IsNotEmpty } from 'class-validator';
 
 export class CreateInformeObligacionDto {
-
   @IsInt()
   @IsNotEmpty()
   id_informe: number;
@@ -9,5 +8,4 @@ export class CreateInformeObligacionDto {
   @IsInt()
   @IsNotEmpty()
   id_obligacion: number;
-
 }

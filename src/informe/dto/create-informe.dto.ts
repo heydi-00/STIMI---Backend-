@@ -1,7 +1,6 @@
 import { IsString, IsNotEmpty, MaxLength, IsInt } from 'class-validator';
 
 export class CreateInformeDto {
-
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
@@ -10,5 +9,4 @@ export class CreateInformeDto {
   @IsInt()
   @IsNotEmpty()
   id_version: number;
-
 }

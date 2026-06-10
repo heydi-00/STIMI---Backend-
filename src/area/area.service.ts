@@ -7,7 +7,6 @@ import { UpdateAreaDto } from './dto/update-area.dto';
 
 @Injectable()
 export class AreaService {
-
   constructor(
     @InjectRepository(Area)
     private readonly areaRepository: Repository<Area>,
@@ -39,5 +38,4 @@ export class AreaService {
     await this.areaRepository.delete(id);
     return { message: `Área con id ${id} eliminada correctamente` };
   }
-
 }
